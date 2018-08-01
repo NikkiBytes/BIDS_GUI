@@ -23,10 +23,10 @@ class App(QWidget):
 
         # Here is the button for the Study/Experiment Name
         self.studyName = QLineEdit(self)
-        self.studyName.move(20,20)
+        self.studyName.move(20,23)
         self.studyName.resize(200,20)
         self.name_btn = QPushButton("Enter Experiment Name", self)
-        self.name_btn.move(250, 20)
+        self.name_btn.move(230, 20)
         self.name_btn.clicked.connect(self.getStudyName)
 
         self.textA = QLabel("Multiple sessions:", self)

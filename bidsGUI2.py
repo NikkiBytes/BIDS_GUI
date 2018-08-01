@@ -1,7 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
+from PyQt5.QtWidgets import QWidget, QMessageBox, QPushButton, QLineEdit, QInputDialog, QApplication, QComboBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
+import sys
 
 
 class App(QWidget):
@@ -18,17 +19,52 @@ class App(QWidget):
     def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
-        button = QPushButton('PyQt5 button', self)
-        button.setToolTip('This is an example button')
-        button.move(100,70)
-        button.clicked.connect(self.on_click)
+
+        # Here is the button for the Study/Experiment Name
+        self.studyName = QLineEdit(self)
+        self.studyName.move(20,20)
+        self.studyName.resize(200,20)
+        self.name_btn = QPushButton("Enter Experiment Name", self)
+        self.name_btn.move(250, 20)
+        self.name_btn.clicked.connect(self.getStudyName)
+
+
+        # Menu, or "combo box" for multi-session parameter
+        self.multiSess = QComboBox(self)
+        self.multiSess.addItem("Yes")
+        self.multiSess.addItem("No")
+        self.multiSess.move(20, 60)
+        self.multiSess.activated.connect(self.multiSession)
+        #studyname_btn = QPushButton('Experiment Name', self)
+        #studyname_btn.move(100,70)
+        #studyname_btn.clicked.connect(self.on_click)
+
+#        self.le = QLineEdit(self)
+#        self.le.move(130, 22)
 
         self.show()
 
 
+
+    def pick_new():
+        dialog = QtGui.QFileDialog()
+        folder_path = dialog.getExistingDirectory(None, "Select Folder")
+        return folder_path
+
     @pyqtSlot()
+    def multiSession(self):
+        print("CURRENT CHOICE: ", self.multiSess.currentText())
+
+    def getStudyName(self):
+        STUDYNAME = self.studyName.text()
+        QMessageBox.question(self, 'Message - pythonspot.com', "You typed: " + STUDYNAME, QMessageBox.Ok, QMessageBox.Ok)
+        self.studyName.setText("")
+
     def on_click(self):
-        print('PyQt5 button click')
+        text, ok = QInputDialog.getText(self, 'Input Dialog',
+            'Enter the study name:')
+        if ok:
+            self.le.setText(str(text))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

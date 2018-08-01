@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QWidget, QMessageBox, QPushButton, QLineEdit, QInputDialog, QApplication, QComboBox
+from PyQt5.QtWidgets import QWidget,  QAction, QMessageBox, QPushButton, QLineEdit, QInputDialog, QApplication, QFileDialog, QComboBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 import sys
@@ -39,6 +39,11 @@ class App(QWidget):
         #studyname_btn.move(100,70)
         #studyname_btn.clicked.connect(self.on_click)
 
+
+        self.inputdir_btn = QPushButton("INPUT DIRECTORY", self)
+        self.inputdir_btn.move(20, 100)
+        self.inputdir_btn.clicked.connect(self.getInputDir)
+
 #        self.le = QLineEdit(self)
 #        self.le.move(130, 22)
 
@@ -46,6 +51,13 @@ class App(QWidget):
 
 
 
+    def getInputDir(self):
+        self.dlg = QFileDialog()
+        self.dlg.setFileMode(QFileDialog.Directory)
+        #filenames = QStringList()
+
+        #if dlg.exec_():
+        #    filenames = dlg.selectedFiles()
     def pick_new():
         dialog = QtGui.QFileDialog()
         folder_path = dialog.getExistingDirectory(None, "Select Folder")

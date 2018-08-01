@@ -20,22 +20,23 @@ class App(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
-
+        self.guiTitle = QLabel("DICOM to BIDS Converter", self)
+        self.guiTitle.move(100, 50)
         # Here is the button for the Study/Experiment Name
         self.studyName = QLineEdit(self)
-        self.studyName.move(20,23)
+        self.studyName.move(20,100)
         self.studyName.resize(200,20)
         self.name_btn = QPushButton("Enter Experiment Name", self)
-        self.name_btn.move(230, 20)
+        self.name_btn.move(230, 95)
         self.name_btn.clicked.connect(self.getStudyName)
 
         self.textA = QLabel("Multiple sessions:", self)
-        self.textA.move(20, 67)
+        self.textA.move(20, 140)
         # Menu, or "combo box" for multi-session parameter
         self.multiSess = QComboBox(self)
         self.multiSess.addItem("Yes")
         self.multiSess.addItem("No")
-        self.multiSess.move(130, 60)
+        self.multiSess.move(130, 134)
         self.multiSess.activated.connect(self.multiSession)
         #studyname_btn = QPushButton('Experiment Name', self)
         #studyname_btn.move(100,70)
@@ -43,15 +44,22 @@ class App(QWidget):
 
 
         self.inputdir_btn = QPushButton("INPUT DIRECTORY", self)
-        self.inputdir_btn.move(20, 100)
+        self.inputdir_btn.move(20, 170)
         self.inputdir_btn.clicked.connect(self.getInputDir)
 
         self.inputdir_btn = QPushButton("OUTPUT DIRECTORY", self)
-        self.inputdir_btn.move(20, 140)
+        self.inputdir_btn.move(20, 200)
         self.inputdir_btn.clicked.connect(self.getOutputDir)
 
 #        self.le = QLineEdit(self)
 #        self.le.move(130, 22)
+
+        self.dicomPath = QLineEdit(self)
+        self.dicomPath.move(20,240)
+        self.dicomPath.resize(200,20)
+        self.dicom_btn = QPushButton("Enter Experiment Name", self)
+        self.dicom_btn.move(230, 235)
+        self.dicom_btn.clicked.connect(self.getDicomPath)
 
         self.show()
 
@@ -81,6 +89,10 @@ class App(QWidget):
 
     def getStudyName(self):
         STUDYNAME = self.studyName.text()
+        QMessageBox.question(self, 'Message - pythonspot.com', "You typed: " + STUDYNAME, QMessageBox.Ok, QMessageBox.Ok)
+        self.studyName.setText("")
+    def getDicomPath(self):
+        DICOMPATH = self.studyName.text()
         QMessageBox.question(self, 'Message - pythonspot.com', "You typed: " + STUDYNAME, QMessageBox.Ok, QMessageBox.Ok)
         self.studyName.setText("")
 

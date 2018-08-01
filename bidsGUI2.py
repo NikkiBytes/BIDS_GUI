@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QWidget,  QAction, QMessageBox, QPushButton, QLineEdit, QInputDialog, QApplication, QFileDialog, QComboBox
+from PyQt5.QtWidgets import QWidget, QLabel,  QAction, QMessageBox, QPushButton, QLineEdit, QInputDialog, QApplication, QFileDialog, QComboBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 import sys
@@ -20,6 +20,7 @@ class App(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
+
         # Here is the button for the Study/Experiment Name
         self.studyName = QLineEdit(self)
         self.studyName.move(20,20)
@@ -28,12 +29,13 @@ class App(QWidget):
         self.name_btn.move(250, 20)
         self.name_btn.clicked.connect(self.getStudyName)
 
-
+        self.textA = QLabel("Multiple sessions:", self)
+        self.textA.move(20, 67)
         # Menu, or "combo box" for multi-session parameter
         self.multiSess = QComboBox(self)
         self.multiSess.addItem("Yes")
         self.multiSess.addItem("No")
-        self.multiSess.move(20, 60)
+        self.multiSess.move(130, 60)
         self.multiSess.activated.connect(self.multiSession)
         #studyname_btn = QPushButton('Experiment Name', self)
         #studyname_btn.move(100,70)
@@ -44,19 +46,28 @@ class App(QWidget):
         self.inputdir_btn.move(20, 100)
         self.inputdir_btn.clicked.connect(self.getInputDir)
 
+        self.inputdir_btn = QPushButton("OUTPUT DIRECTORY", self)
+        self.inputdir_btn.move(20, 140)
+        self.inputdir_btn.clicked.connect(self.getOutputDir)
+
 #        self.le = QLineEdit(self)
 #        self.le.move(130, 22)
 
         self.show()
 
 
+    def getOutputDir(self):
+        #self.dlg = QFileDialog()
+        #self.dlg.setFileMode(QFileDialog.Directory)
 
+        OUTPUTDIR = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\',"Image files (*.jpg *.gif)")
+        self.setPixmap(QPixmap(OUTPUTDIR))
     def getInputDir(self):
         #self.dlg = QFileDialog()
         #self.dlg.setFileMode(QFileDialog.Directory)
 
-        fname = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\',"Image files (*.jpg *.gif)")
-        self.setPixmap(QPixmap(fname))
+        INPUTDIR = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\',"Image files (*.jpg *.gif)")
+        self.setPixmap(QPixmap(INPUTDIR))
         #if dlg.exec_():
         #    filenames = dlg.selectedFiles()
     def pick_new():

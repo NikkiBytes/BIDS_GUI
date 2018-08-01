@@ -52,10 +52,11 @@ class App(QWidget):
 
 
     def getInputDir(self):
-        self.dlg = QFileDialog()
-        self.dlg.setFileMode(QFileDialog.Directory)
-        #filenames = QStringList()
+        #self.dlg = QFileDialog()
+        #self.dlg.setFileMode(QFileDialog.Directory)
 
+        fname = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\',"Image files (*.jpg *.gif)")
+        self.setPixmap(QPixmap(fname))
         #if dlg.exec_():
         #    filenames = dlg.selectedFiles()
     def pick_new():

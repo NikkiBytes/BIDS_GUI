@@ -57,7 +57,7 @@ class App(QWidget):
         self.dicomPath = QLineEdit(self)
         self.dicomPath.move(20,240)
         self.dicomPath.resize(200,20)
-        self.dicom_btn = QPushButton("Enter Experiment Name", self)
+        self.dicom_btn = QPushButton("Enter Path to Dicoms", self)
         self.dicom_btn.move(230, 235)
         self.dicom_btn.clicked.connect(self.getDicomPath)
 
@@ -65,19 +65,14 @@ class App(QWidget):
 
 
     def getOutputDir(self):
-        #self.dlg = QFileDialog()
-        #self.dlg.setFileMode(QFileDialog.Directory)
+        OUTPUTDIR = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
+        print("---------------------> OUTPUT DIRECTORY: ", OUTPUTDIR)
 
-        OUTPUTDIR = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\',"Image files (*.jpg *.gif)")
-        self.setPixmap(QPixmap(OUTPUTDIR))
+        #self.setPixmap(QPixmap(OUTPUTDIR))
     def getInputDir(self):
-        #self.dlg = QFileDialog()
-        #self.dlg.setFileMode(QFileDialog.Directory)
+        INPUTDIR = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
+        print("---------------------> INPUT DIRECTORY: ", INPUTDIR)
 
-        INPUTDIR = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\',"Image files (*.jpg *.gif)")
-        self.setPixmap(QPixmap(INPUTDIR))
-        #if dlg.exec_():
-        #    filenames = dlg.selectedFiles()
     def pick_new():
         dialog = QtGui.QFileDialog()
         folder_path = dialog.getExistingDirectory(None, "Select Folder")
@@ -93,7 +88,7 @@ class App(QWidget):
         self.studyName.setText("")
     def getDicomPath(self):
         DICOMPATH = self.studyName.text()
-        QMessageBox.question(self, 'Message - pythonspot.com', "You typed: " + STUDYNAME, QMessageBox.Ok, QMessageBox.Ok)
+        QMessageBox.question(self, 'Message - pythonspot.com', "You typed: " + DICOMPATH, QMessageBox.Ok, QMessageBox.Ok)
         self.studyName.setText("")
 
     def on_click(self):

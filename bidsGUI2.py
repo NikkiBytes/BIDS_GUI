@@ -10,9 +10,9 @@ class App(QWidget):
     def __init__(self):
         super().__init__()
         self.title = 'DICOM TO BIDS CONVERTER'
-        self.left = 10
-        self.top = 10
-        self.width = 640
+        self.left = 5
+        self.top = 5
+        self.width = 550
         self.height = 480
         self.initUI()
 
@@ -21,7 +21,7 @@ class App(QWidget):
         self.setGeometry(self.left, self.top, self.width, self.height)
 
         self.guiTitle = QLabel("DICOM to BIDS Converter", self)
-        self.guiTitle.move(100, 50)
+        self.guiTitle.move(20, 50)
         # Here is the button for the Study/Experiment Name
         self.studyName = QLineEdit(self)
         self.studyName.move(20,100)
@@ -34,8 +34,8 @@ class App(QWidget):
         self.textA.move(20, 140)
         # Menu, or "combo box" for multi-session parameter
         self.multiSess = QComboBox(self)
-        self.multiSess.addItem("Yes")
         self.multiSess.addItem("No")
+        self.multiSess.addItem("Yes")
         self.multiSess.move(130, 134)
         self.multiSess.activated.connect(self.multiSession)
         #studyname_btn = QPushButton('Experiment Name', self)
@@ -47,9 +47,9 @@ class App(QWidget):
         self.inputdir_btn.move(20, 170)
         self.inputdir_btn.clicked.connect(self.getInputDir)
 
-        self.inputdir_btn = QPushButton("OUTPUT DIRECTORY", self)
-        self.inputdir_btn.move(20, 200)
-        self.inputdir_btn.clicked.connect(self.getOutputDir)
+        self.outputdir_btn = QPushButton("OUTPUT DIRECTORY", self)
+        self.outputdir_btn.move(20, 200)
+        self.outputdir_btn.clicked.connect(self.getOutputDir)
 
 #        self.le = QLineEdit(self)
 #        self.le.move(130, 22)
@@ -60,6 +60,11 @@ class App(QWidget):
         self.dicom_btn = QPushButton("Enter Path to Dicoms", self)
         self.dicom_btn.move(230, 235)
         self.dicom_btn.clicked.connect(self.getDicomPath)
+
+
+        self.startProcess_btn = QPushButton("START CONVERSION", self)
+        self.startProcess_btn.move(15, 290)
+        self.startProcess_btn.connect(self.startConversion)
 
         self.show()
 
@@ -73,11 +78,6 @@ class App(QWidget):
         INPUTDIR = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
         print("---------------------> INPUT DIRECTORY: ", INPUTDIR)
 
-    def pick_new():
-        dialog = QtGui.QFileDialog()
-        folder_path = dialog.getExistingDirectory(None, "Select Folder")
-        return folder_path
-
     @pyqtSlot()
     def multiSession(self):
         print("CURRENT CHOICE: ", self.multiSess.currentText())
@@ -87,16 +87,20 @@ class App(QWidget):
         QMessageBox.question(self, 'Message - pythonspot.com', "You typed: " + STUDYNAME, QMessageBox.Ok, QMessageBox.Ok)
         self.studyName.setText("")
     def getDicomPath(self):
-        DICOMPATH = self.studyName.text()
+        DICOMPATH = self.dicomPath.text()
         QMessageBox.question(self, 'Message - pythonspot.com', "You typed: " + DICOMPATH, QMessageBox.Ok, QMessageBox.Ok)
-        self.studyName.setText("")
+        self.dicomPath.setText("")
+    def startConversion(self):
+        if 
 
+
+"""
     def on_click(self):
         text, ok = QInputDialog.getText(self, 'Input Dialog',
             'Enter the study name:')
         if ok:
             self.le.setText(str(text))
-
+"""
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()

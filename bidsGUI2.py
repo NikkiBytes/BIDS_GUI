@@ -61,6 +61,9 @@ class App(QWidget):
         self.outputdir_btn.move(20, 240)
         self.outputdir_btn.clicked.connect(self.getOutputDir)
 
+        self.heuristic_btn = QPushButton("HEURISTIC FILE", self)
+        self.heuristic_btn.move(20, 280)
+        self.heuristic_btn.clicked.connect(self.getHeuristicFile)
 #        self.le = QLineEdit(self)
 #        self.le.move(130, 22)
 
@@ -68,11 +71,14 @@ class App(QWidget):
 
 
         self.startProcess_btn = QPushButton("START CONVERSION", self)
-        self.startProcess_btn.move(15, 290)
+        self.startProcess_btn.move(15, 320)
     #    self.startProcess_btn.connect(self.startConversion)
 
         self.show()
 
+    def getHeuristicFile(self):
+        HEURISTICFILE = #get existing file
+        BIDSConversion.setHEURISTICFILE(HEURISTICFILE)
 
     def getOutputDir(self):
         OUTPUTDIR = str(QFileDialog.getExistingDirectory(self, "Select Directory"))

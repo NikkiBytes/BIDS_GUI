@@ -25,6 +25,8 @@ def setDICOMPATH(x):
     DICOMPATH = x
 def setMULTISESS(x):
     MULTISESS = x
+def setHEURISTICFILE(x):
+    HEURISTICFILE = x
 
 def runConversion():
     print("STARTING CONVERSION")

@@ -8,28 +8,35 @@ This is a conversion script the GUI uses to run Heudiconv
 
 from __main__ import *
 
-global STUDYNAME
-global INPUTDIR
-global OUTPUTDIR
-global DICOMPATH
-global MULTISESS
+
+
+
+
+
 
 def setSTUDYNAME(x):
+    global STUDYNAME
     STUDYNAME = x
-    print(STUDYNAME)
 def setINPUTDIR(x):
+    global INPUTDIR
     INPUTDIR = x
 def setOUTPUTDIR(x):
+    global OUTPUTDIR
     OUTPUTDIR = x
 def setDICOMPATH(x):
+    global DICOMPATH
     DICOMPATH = x
 def setMULTISESS(x):
+    global MULTISESS
     MULTISESS = x
 def setHEURISTICFILE(x):
+    global HEURISTICFILE
     HEURISTICFILE = x
 
 def runConversion():
-    print("STARTING CONVERSION")
+    print(">>>>---------------------------> STARTING CONVERSION")
+    print(">>>>----------------> HERE ARE MY VARIABLES: \n STUDYNAME:%s \nINPUTDIR:%s \nOUTPUTDIR:%s \nDICOMPATH:%s \
+                \nMULTISESS:%s \nHEURISTICFILE:%s "%(STUDYNAME, INPUTDIR, OUTPUTDIR, DICOMPATH, MULTISESS, HEURISTICFILE))
     ##input bash script here
 
 """

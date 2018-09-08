@@ -47,6 +47,7 @@ class App(QWidget):
         self.multiSess.addItem("No")
         self.multiSess.addItem("Yes")
         self.multiSess.move(130, 170)
+        default = str(self.multiSess.currentText())
         self.multiSess.activated.connect(self.multiSession)
         #studyname_btn = QPushButton('Experiment Name', self)
         #studyname_btn.move(100,70)
@@ -67,17 +68,18 @@ class App(QWidget):
 #        self.le = QLineEdit(self)
 #        self.le.move(130, 22)
 
-
-
-
-        self.startProcess_btn = QPushButton("START CONVERSION", self)
+        self.startProcess_btn = QPushButton("CONVERT", self)
         self.startProcess_btn.move(15, 320)
-    #    self.startProcess_btn.connect(self.startConversion)
+        self.startProcess_btn.clicked.connect(self.runConversion)
 
         self.show()
 
     def getHeuristicFile(self):
-        HEURISTICFILE = #get existing file
+        HEURISTICTUPLE = QFileDialog.getOpenFileName(self, "Select File")#get existing file
+        HEURISTICFILE = HEURISTICTUPLE[0]
+        print("---------------------> HEURISTIC FILE: ", HEURISTICFILE)
+        #print(type(HEURISTICFILE[0]))
+        print(HEURISTICFILE[0])
         BIDSConversion.setHEURISTICFILE(HEURISTICFILE)
 
     def getOutputDir(self):
@@ -112,6 +114,9 @@ class App(QWidget):
         print("---------------------> DICOMPATH: ", DICOMPATH)
         BIDSConversion.setDICOMPATH(DICOMPATH)
 
+    def runConversion(self):
+        print("here -->")
+        BIDSConversion.runConversion()
 
         #QMessageBox.question(self, 'Message - pythonspot.com', "You typed: " + DICOMPATH, QMessageBox.Ok, QMessageBox.Ok)
         #self.dicomPath.setText("")
@@ -128,4 +133,5 @@ class App(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()
+
     sys.exit(app.exec_())

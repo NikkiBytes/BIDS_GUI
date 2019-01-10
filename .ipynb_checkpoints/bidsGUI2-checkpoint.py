@@ -54,24 +54,26 @@ class App(QWidget):
         #studyname_btn.move(100,70)
         #studyname_btn.clicked.connect(self.on_click)
 
-
-
-        self.inputdir_btn = QPushButton("INPUT DIRECTORY", self)
+        self.inputdir_btn = QPushButton("SESSION ID", self)
         self.inputdir_btn.move(20, 200)
         self.inputdir_btn.clicked.connect(self.getInputDir)
 
+        self.inputdir_btn = QPushButton("INPUT DIRECTORY", self)
+        self.inputdir_btn.move(20, 240)
+        self.inputdir_btn.clicked.connect(self.getInputDir)
+
         self.outputdir_btn = QPushButton("OUTPUT DIRECTORY", self)
-        self.outputdir_btn.move(20, 240)
+        self.outputdir_btn.move(20, 280)
         self.outputdir_btn.clicked.connect(self.getOutputDir)
 
         self.heuristic_btn = QPushButton("HEURISTIC FILE", self)
-        self.heuristic_btn.move(20, 280)
+        self.heuristic_btn.move(20, 320)
         self.heuristic_btn.clicked.connect(self.getHeuristicFile)
 #        self.le = QLineEdit(self)
 #        self.le.move(130, 22)
 
         self.startProcess_btn = QPushButton("CONVERT", self)
-        self.startProcess_btn.move(15, 320)
+        self.startProcess_btn.move(15, 360)
         self.startProcess_btn.clicked.connect(self.runConversion)
 
         self.show()

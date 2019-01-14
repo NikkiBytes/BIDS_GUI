@@ -40,40 +40,46 @@ class App(QWidget):
         self.dicom_btn.clicked.connect(self.getDicomPath)
 
 
+
+
+        self.inputdir_btn = QPushButton("Input Directory", self)
+        self.inputdir_btn.move(15, 175)
+        self.inputdir_btn.clicked.connect(self.getInputDir)
+
+        self.outputdir_btn = QPushButton("Output Directory", self)
+        self.outputdir_btn.move(175, 175)
+        self.outputdir_btn.clicked.connect(self.getOutputDir)
+
+        self.heuristic_btn = QPushButton("Heuristic File", self)
+        self.heuristic_btn.move(350, 175)
+        self.heuristic_btn.clicked.connect(self.getHeuristicFile)
+
+
+
         self.textA = QLabel("Multiple sessions:", self)
-        self.textA.move(20, 175)
+        self.textA.move(20, 225)
         # Menu, or "combo box" for multi-session parameter
         self.multiSess = QComboBox(self)
         self.multiSess.addItem("")
         self.multiSess.addItem("No")
         self.multiSess.addItem("Yes")
-        self.multiSess.move(130, 170)
+        self.multiSess.move(130, 220)
         default = str(self.multiSess.currentText())
         self.multiSess.activated.connect(self.multiSession)
-        #studyname_btn = QPushButton('Experiment Name', self)
-        #studyname_btn.move(100,70)
-        #studyname_btn.clicked.connect(self.on_click)
 
-
-
-        self.inputdir_btn = QPushButton("INPUT DIRECTORY", self)
-        self.inputdir_btn.move(20, 200)
-        self.inputdir_btn.clicked.connect(self.getInputDir)
-
-        self.outputdir_btn = QPushButton("OUTPUT DIRECTORY", self)
-        self.outputdir_btn.move(20, 240)
-        self.outputdir_btn.clicked.connect(self.getOutputDir)
-
-        self.heuristic_btn = QPushButton("HEURISTIC FILE", self)
-        self.heuristic_btn.move(20, 280)
-        self.heuristic_btn.clicked.connect(self.getHeuristicFile)
-#        self.le = QLineEdit(self)
-#        self.le.move(130, 22)
+        self.sessID = QLineEdit(self)
+        self.sessID.move(50,260)
+        self.sessID.resize(50,20)
+        self.sess_btn = QPushButton("Session", self)
+        self.sess_btn.move(100,255)
+        self.sess_btn.clicked.connect(self.getSession)
 
         self.startProcess_btn = QPushButton("CONVERT", self)
         self.startProcess_btn.move(15, 320)
         self.startProcess_btn.clicked.connect(self.runConversion)
 
+        
+        
         self.show()
 
     def getHeuristicFile(self):
@@ -101,6 +107,10 @@ class App(QWidget):
             BIDSConversion.setMULTISESS(True)
         else:
             BIDSConversion.setMULTISESS(False)
+    def getSession(self):
+        SESS_ID = self.sessIS.currentText()
+        print("CURRENT CHOICE: ", self.sessID.currentText())
+        BIDSConversion.setSESSIONID(SESS_ID)
 
     def getStudyName(self):
         STUDYNAME = self.studyName.text()
@@ -108,9 +118,6 @@ class App(QWidget):
         BIDSConversion.setSTUDYNAME(STUDYNAME)
 
 
-
-        #QMessageBox.question(self, 'Message - pythonspot.com', "You typed: " + STUDYNAME, QMessageBox.Ok, QMessageBox.Ok)
-        #self.studyName.setText("")
     def getDicomPath(self):
         DICOMPATH = self.dicomPath.text()
         print("---------------------> DICOMPATH: ", DICOMPATH)
@@ -120,18 +127,6 @@ class App(QWidget):
         print("here -->")
         BIDSConversion.runConversion()
 
-        #QMessageBox.question(self, 'Message - pythonspot.com', "You typed: " + DICOMPATH, QMessageBox.Ok, QMessageBox.Ok)
-        #self.dicomPath.setText("")
-    #def startConversion(self):
-        #if
-
-"""
-    def on_click(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog',
-            'Enter the study name:')
-        if ok:
-            self.le.setText(str(text))
-"""
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()

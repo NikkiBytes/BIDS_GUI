@@ -75,7 +75,7 @@ class App(QWidget):
         self.sess_btn.clicked.connect(self.getSession)
 
         self.startProcess_btn = QPushButton("CONVERT", self)
-        self.startProcess_btn.move(15, 320)
+        self.startProcess_btn.move(350, 320)
         self.startProcess_btn.clicked.connect(self.runConversion)
 
         
@@ -108,8 +108,7 @@ class App(QWidget):
         else:
             BIDSConversion.setMULTISESS(False)
     def getSession(self):
-        SESS_ID = self.sessIS.currentText()
-        print("CURRENT CHOICE: ", self.sessID.currentText())
+        SESS_ID = self.sessID.text()
         BIDSConversion.setSESSIONID(SESS_ID)
 
     def getStudyName(self):

@@ -32,14 +32,16 @@ def setHEURISTICFILE(x):
 
 def runConversion():
     print(">>>>---------------------------> STARTING CONVERSION")
-    print(">>>>----------------> HERE ARE MY VARIABLES: \n STUDYNAME:%s \nINPUTDIR:%s \nOUTPUTDIR:%s \nDICOMPATH:%s \
-                \nMULTISESS:%s \nHEURISTICFILE:%s "%(STUDYNAME, INPUTDIR, OUTPUTDIR, DICOMPATH, MULTISESS, HEURISTICFILE))
     
-    if MULTISES == False:
-        bids_command = "singularity exec -B %s:/test %s heudiconv -b -d %s -s %s -f %s -c dcm2niix -b -o %s/{addsubject}"
+    if MULTISESS == False:
+        print(">>>>----------------> HERE ARE MY VARIABLES: \n STUDYNAME:%s \nINPUTDIR:%s \nOUTPUTDIR:%s \nDICOMPATH:%s \
+                \nMULTISESS:%s \nHEURISTICFILE:%s "%(STUDYNAME, INPUTDIR, OUTPUTDIR, DICOMPATH, MULTISESS, HEURISTICFILE))
+        #bids_command = "singularity exec -B %s:/test %s heudiconv -b -d %s -s %s -f %s -c dcm2niix -b -o %s/{addsubject}"
     else:
-        bids_command = "singularity exec -B %s:/test %s heudiconv -b -d %s -s -ss %s -f %s -c dcm2niix -b -o %s/{addsubject}"
-        print(bids_command)
+            print(">>>>----------------> HERE ARE MY VARIABLES: \n STUDYNAME:%s \nINPUTDIR:%s \nOUTPUTDIR:%s \nDICOMPATH:%s \
+                \nMULTISESS:%s \nHEURISTICFILE:%s \nSESS ID:%s"%(STUDYNAME, INPUTDIR, OUTPUTDIR, DICOMPATH, MULTISESS, HEURISTICFILE, SESS_ID))
+        #bids_command = "singularity exec -B %s:/test %s heudiconv -b -d %s -s -ss %s -f %s -c dcm2niix -b -o %s/{addsubject}"
+        #print(bids_command)
 
     ##input bash script here
 

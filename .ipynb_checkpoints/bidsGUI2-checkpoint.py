@@ -3,7 +3,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 import sys
 import BIDSConversion
-import os
+import os, glob
 
 class App(QWidget):
 
@@ -95,10 +95,27 @@ class App(QWidget):
         print("---------------------> OUTPUT DIRECTORY: ", OUTPUTDIR)
         BIDSConversion.setOUTPUTDIR(OUTPUTDIR)
         #self.setPixmap(QPixmap(OUTPUTDIR))
+    def showSubjects(self,INPUT_DIR):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        SUBS = glob.glob(os.path.join(INPUT_DIR, "sub-*"))
+        SUBS = [i.split("/")[-1] for i in SUBS]
+        msg.setInformativeText("The following subjects were found:")
+        string = ' , '.join(SUBS)
+        msg.setDetailedText(string)
+        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        
+        reply = msg.exec_()
+        if reply == QMessageBox.Yes:
+            print("value pressed was yes")
+        else:
+            print("value pressed was no")
+        
     def getInputDir(self):
         INPUTDIR = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
         print("---------------------> INPUT DIRECTORY: ", INPUTDIR)
-        BIDSConversion.setINPUTDIR(INPUTDIR)
+        self.showSubjects(INPUTDIR)
+#        BIDSConversion.setINPUTDIR(INPUTDIR)
     @pyqtSlot()
     def multiSession(self):
         MULTISESS = self.multiSess.currentText()
@@ -125,6 +142,9 @@ class App(QWidget):
     def runConversion(self):
         print("here -->")
         BIDSConversion.runConversion()
+        
+
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -97,14 +97,19 @@ class App(QWidget):
         #self.setPixmap(QPixmap(OUTPUTDIR))
     def showSubjects(self,INPUT_DIR):
         msg = QMessageBox()
-        msg.setIcon(QMessageBox.Information)
+        
         SUBS = glob.glob(os.path.join(INPUT_DIR, "sub-*"))
         SUBS = [i.split("/")[-1] for i in SUBS]
-        msg.setInformativeText("The following subjects were found:")
-        string = ' , '.join(SUBS)
-        msg.setDetailedText(string)
-        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         
+        if not SUBS:
+            msg.setIcon(QMessageBox.Warning)
+            msg.setInformativeText("NO SUBJECTS WERE FOUND.")
+        else:
+            msg.setIcon(QMessageBox.Information)
+            msg.setInformativeText("The following subjects were found:")
+            string = ' , '.join(SUBS)
+            msg.setDetailedText(string)
+            msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         reply = msg.exec_()
         if reply == QMessageBox.Yes:
             print("value pressed was yes")

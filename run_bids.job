@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+#SBATCH --job-name=BIDS_Conversion
+#SBATCH -N 1
+#SBATCH -c 1
+#SBATCH -t 1:00:00
+## %A == SLURM_ARRAY_JOB_ID
+## %a == SLURM_ARRAY_TASK_ID
+
+
+cmd=$1
+$cmd

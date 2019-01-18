@@ -81,6 +81,13 @@ class App(QWidget):
         
         
         self.show()
+        
+        
+##################################################
+##################################################
+# Below are the methods used to gather information from above
+
+####### Get the heuristic file
 
     def getHeuristicFile(self):
         HEURISTICTUPLE = QFileDialog.getOpenFileName(self, "Select File")#get existing file
@@ -90,11 +97,16 @@ class App(QWidget):
         print(HEURISTICFILE[0])
         BIDSConversion.setHEURISTICFILE(HEURISTICFILE)
 
+####### Get output directory
+
     def getOutputDir(self):
         OUTPUTDIR = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
         print("---------------------> OUTPUT DIRECTORY: ", OUTPUTDIR)
         BIDSConversion.setOUTPUTDIR(OUTPUTDIR)
         #self.setPixmap(QPixmap(OUTPUTDIR))
+
+####### Get input directory and
+
     def showSubjects(self,INPUT_DIR):
         msg = QMessageBox()
         
@@ -113,6 +125,7 @@ class App(QWidget):
         reply = msg.exec_()
         if reply == QMessageBox.Yes:
             print("value pressed was yes")
+            BIDSConversion.setSUBJECTS(SUBS)
         else:
             print("value pressed was no")
         
@@ -122,6 +135,9 @@ class App(QWidget):
         self.showSubjects(INPUTDIR)
 #        BIDSConversion.setINPUTDIR(INPUTDIR)
     @pyqtSlot()
+    
+###### Get multisession 
+
     def multiSession(self):
         MULTISESS = self.multiSess.currentText()
         print("CURRENT CHOICE: ", self.multiSess.currentText())

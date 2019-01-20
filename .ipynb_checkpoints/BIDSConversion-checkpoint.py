@@ -11,7 +11,7 @@ import os, subprocess
 
 def setINPUTDIR(x):
     global INPUTPATH
-    INPUTPATH = os.path.join(x, "{subject}")
+    INPUTPATH = os.path.join("test", x, "{subject}")
 def setSUBJECTS(x):
     global SUBJECTS
     global IDS 
@@ -24,7 +24,7 @@ def setSUBJECTS(x):
     IDS = sorted(IDS)
 def setOUTPUTDIR(x):
     global OUTPUTDIR
-    OUTPUTDIR = x
+    OUTPUTDIR = os.path.join("test", x)
 def setDICOM(x):
     global DICOM
     DICOM = x
@@ -36,18 +36,17 @@ def setSESSIONID(x):
     SESS_ID = x
 def setHEURISTICFILE(x):
     global HEURISTICFILE
-    HEURISTICFILE = x
+    HEURISTICFILE = os.path.join("test", x)
 
 def runConversion():
     print(">>>>---------------------------> STARTING CONVERSION")
     
-    """if MULTISESS == False:
-        print(SUBJECTS)
-    
+    if MULTISESS == False:
+            BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s SUBJECT -f dcm2niix -c %s -o %s/SUBJECT"%(INPUT, HEURISTICFILE, OUTPUTDIR)
     else:
-        #bids_command = "singularity exec -B %s:/test %s heudiconv -b -d %s -s -ss %s -f %s -c dcm2niix -b -o %s/{addsubject}"
-        #print(bids_command)
-    """
+            BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s SUBJECT -ss %s -f dcm2niix -c %s -o %s/SUBJECT"%(INPUT, SESS_ID,  HEURISTICFILE, OUTPUTDIR)
+
+
     
     def divide_chunks(l, n): 
     # looping till length l 
@@ -76,7 +75,7 @@ def runConversion():
     BATCH_CMD = "sbatch --array=%s-%s"%(start,finish)+"%"+"%s /Users/nikkibytes/Documents/GUIS/BIDS_GUI/run_bids.job"%(JOB_SPLIT)
     #print(BATCH_CMD)
     INPUT = os.path.join(INPUTPATH, "*."+DICOM)
-    BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s SUBJECT -f dcm2niix -c %s -o %s/SUBJECT"%(INPUT, HEURISTICFILE, OUTPUTDIR)
+
     run_batch = subprocess.Popen(["/Users/nikkibytes/Documents/GUIS/BIDS_GUI/test.sh", BIDS_CMD])
     
     

@@ -7,6 +7,14 @@
 ## %A == SLURM_ARRAY_JOB_ID
 ## %a == SLURM_ARRAY_TASK_ID
 
+if [ ${SLURM_ARRAY_TASK_ID} -lt 10 ]; then
+    in="00${SLURM_ARRAY_TASK_ID}"
+elif [  ${SLURM_ARRAY_TASK_ID} -lt 100 ]; then
+    id="sub-0${SLURM_ARRAY_TASK_ID}"
+else 
+    id="sub-${SLURM_ARRAY_TASK_ID}" 
+fi
 
-cmd=$1
-$cmd
+input=$1
+cmd=${input//SUBJECT/$id}
+echo $cmd

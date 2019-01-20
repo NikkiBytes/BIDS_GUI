@@ -7,19 +7,27 @@ This is a conversion script the GUI uses to run Heudiconv
 """
 
 from __main__ import *
+import os, subprocess
 
-def setSTUDYNAME(x):
-    global STUDYNAME
-    STUDYNAME = x
+def setINPUTDIR(x):
+    global INPUTPATH
+    INPUTPATH = os.path.join(x, "{subject}")
 def setSUBJECTS(x):
     global SUBJECTS
-    SUBJECTS = sorted(x)
+    global IDS 
+    IDS = []
+    SUBJECTS = []
+    for sub in x:
+        _id = sub.split("-")[1]
+        _id = round(int(_id)/1) 
+        SUBJECTS.append(_id)
+    IDS = sorted(IDS)
 def setOUTPUTDIR(x):
     global OUTPUTDIR
     OUTPUTDIR = x
-def setDICOMPATH(x):
-    global DICOMPATH
-    DICOMPATH = x
+def setDICOM(x):
+    global DICOM
+    DICOM = x
 def setMULTISESS(x):
     global MULTISESS
     MULTISESS = x
@@ -33,50 +41,52 @@ def setHEURISTICFILE(x):
 def runConversion():
     print(">>>>---------------------------> STARTING CONVERSION")
     
-    if MULTISESS == False:
-        print(">>>>----------------> HERE ARE MY VARIABLES: \n STUDYNAME:%s \nOUTPUTDIR:%s \nDICOMPATH:%s \
-                \nMULTISESS:%s \nHEURISTICFILE:%s "%(STUDYNAME, OUTPUTDIR, DICOMPATH, MULTISESS, HEURISTICFILE))
+    """if MULTISESS == False:
         print(SUBJECTS)
-        #bids_command = "singularity exec -B %s:/test %s heudiconv -b -d %s -s %s -f %s -c dcm2niix -b -o %s/{addsubject}"
-        
+    
     else:
-            print(">>>>----------------> HERE ARE MY VARIABLES: \n STUDYNAME:%s \nINPUTDIR:%s \nOUTPUTDIR:%s \nDICOMPATH:%s \
-                \nMULTISESS:%s \nHEURISTICFILE:%s \nSESS ID:%s"%(STUDYNAME, INPUTDIR, OUTPUTDIR, DICOMPATH, MULTISESS, HEURISTICFILE, SESS_ID))
         #bids_command = "singularity exec -B %s:/test %s heudiconv -b -d %s -s -ss %s -f %s -c dcm2niix -b -o %s/{addsubject}"
         #print(bids_command)
-
+    """
     
     def divide_chunks(l, n): 
     # looping till length l 
         for i in range(0, len(l), n):  
             yield l[i:i + n] 
 
-        
-    ##input bash script here
-    GREATEST_SUB = SUBJECTS[-1].split("-")[1]
-    SUB_COUNT = len(SUBJECTS)
+    SUB_COUNT = len(IDS)
     if SUB_COUNT > 100:
         BATCH_SPLIT = 10
+        JOB_SPLIT = 50
     elif SUB_COUNT > 50:
-        BATCH_SPLIT = 5 
+        BATCH_SPLIT = 5
+        JOB_SPLIT = 30
     elif SUB_COUNT > 20:
         BATCH_SPLIT = 3
+        JOB_SPLIT = 20
     elif SUB_COUNT > 10:
         BATCH_SPLIT = 2
+        JOB_SPLIT = 10
     else: 
         BATCH_SPLIT = 1
+        JOB_SPLIT = 5
+    
+    start=SUBJECTS[0]
+    finish=SUBJECTS[-1]
+    BATCH_CMD = "sbatch --array=%s-%s"%(start,finish)+"%"+"%s /Users/nikkibytes/Documents/GUIS/BIDS_GUI/run_bids.job"%(JOB_SPLIT)
+    #print(BATCH_CMD)
+    INPUT = os.path.join(INPUTPATH, "*."+DICOM)
+    BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s SUBJECT -f dcm2niix -c %s -o %s/SUBJECT"%(INPUT, HEURISTICFILE, OUTPUTDIR)
+    run_batch = subprocess.Popen(["/Users/nikkibytes/Documents/GUIS/BIDS_GUI/test.sh", BIDS_CMD])
     
     
     
-    x = list(divide_chunks(SUBJECTS, round(SUB_COUNT/BATCH_SPLIT))) 
-    for index, _list in enumerate(x):
-        new_list = []
-        for sub in _list:
-            _id = sub.split("-")[1]
-            _id = int(_id)/1 
-            new_list.append(round(_id))
-            x[index]= new_list
-    print(x)
-    #print(x)
-#BATCH_CMD = #PUT BATCH COMMAND HERE
+    #batches = list(divide_chunks(SUBJECTS, round(SUB_COUNT/BATCH_SPLIT))) 
+    """for _list in batches:
+        y = len(_list)
+        start = _list[0]
+        finish = _list[-1]
+        BATCH_CMD = "sbatch --array=%s-%s"%(start,finish)+"%"+"%s /projects/wherereverIputit/run_bids.job"%(y)
+        print(BATCH_CMD)"""
+    
 #run_batch=subprocess.Popen(["sbatch /projects/niblab/bids_projects/Heudiconv_drypass/drypass.job", heudiconv_cmd])

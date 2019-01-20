@@ -24,58 +24,55 @@ class App(QWidget):
         self.guiTitle = QLabel("DICOM to BIDS Converter", self)
         self.guiTitle.move(20, 50)
         # Here is the button for the Study/Experiment Name
-        self.studyName = QLineEdit(self)
-        self.studyName.move(20,100)
-        self.studyName.resize(200,20)
-        self.name_btn = QPushButton("Enter Experiment Name", self)
-        self.name_btn.move(230, 95)
-        self.name_btn.clicked.connect(self.getStudyName)
 
-
-        self.dicomPath = QLineEdit(self)
-        self.dicomPath.move(20,140)
-        self.dicomPath.resize(200,20)
-        self.dicom_btn = QPushButton("Enter Path to Dicoms", self)
-        self.dicom_btn.move(230, 136)
-        self.dicom_btn.clicked.connect(self.getDicomPath)
-
-
-
-
+        
         self.inputdir_btn = QPushButton("Input Directory", self)
-        self.inputdir_btn.move(15, 175)
+        self.inputdir_btn.move(15, 100)
         self.inputdir_btn.clicked.connect(self.getInputDir)
 
         self.outputdir_btn = QPushButton("Output Directory", self)
-        self.outputdir_btn.move(175, 175)
+        self.outputdir_btn.move(175, 100)
         self.outputdir_btn.clicked.connect(self.getOutputDir)
 
         self.heuristic_btn = QPushButton("Heuristic File", self)
-        self.heuristic_btn.move(350, 175)
+        self.heuristic_btn.move(350, 100)
         self.heuristic_btn.clicked.connect(self.getHeuristicFile)
+
+
+        self.textA = QLabel("Dicom Extension:", self)
+        self.textA.move(20, 150)
+        # Menu, or "combo box" for multi-session parameter
+        self.dicom = QComboBox(self)
+        self.dicom.addItem("")
+        self.dicom.addItem("dcm")
+        self.dicom.addItem("IMA")
+        self.dicom.move(130, 145)
+        default = str(self.dicom.currentText())
+        self.dicom.activated.connect(self.setDICOM)
+        
 
 
 
         self.textA = QLabel("Multiple sessions:", self)
-        self.textA.move(20, 225)
+        self.textA.move(210, 150)
         # Menu, or "combo box" for multi-session parameter
         self.multiSess = QComboBox(self)
         self.multiSess.addItem("")
         self.multiSess.addItem("No")
         self.multiSess.addItem("Yes")
-        self.multiSess.move(130, 220)
+        self.multiSess.move(325, 145)
         default = str(self.multiSess.currentText())
         self.multiSess.activated.connect(self.multiSession)
 
         self.sessID = QLineEdit(self)
-        self.sessID.move(50,260)
+        self.sessID.move(330,180)
         self.sessID.resize(50,20)
         self.sess_btn = QPushButton("Session", self)
-        self.sess_btn.move(100,255)
+        self.sess_btn.move(380,175)
         self.sess_btn.clicked.connect(self.getSession)
 
         self.startProcess_btn = QPushButton("CONVERT", self)
-        self.startProcess_btn.move(350, 320)
+        self.startProcess_btn.move(200, 240)
         self.startProcess_btn.clicked.connect(self.runConversion)
 
         
@@ -133,7 +130,7 @@ class App(QWidget):
         INPUTDIR = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
         print("---------------------> INPUT DIRECTORY: ", INPUTDIR)
         self.showSubjects(INPUTDIR)
-#        BIDSConversion.setINPUTDIR(INPUTDIR)
+        BIDSConversion.setINPUTDIR(INPUTDIR)
     @pyqtSlot()
     
 ###### Get multisession 
@@ -145,21 +142,20 @@ class App(QWidget):
             BIDSConversion.setMULTISESS(True)
         else:
             BIDSConversion.setMULTISESS(False)
+            
+            
     def getSession(self):
         SESS_ID = self.sessID.text()
         BIDSConversion.setSESSIONID(SESS_ID)
 
-    def getStudyName(self):
-        STUDYNAME = self.studyName.text()
-        print("---------------------> STUDYNAME: ", STUDYNAME)
-        BIDSConversion.setSTUDYNAME(STUDYNAME)
-
-
-    def getDicomPath(self):
-        DICOMPATH = self.dicomPath.text()
-        print("---------------------> DICOMPATH: ", DICOMPATH)
-        BIDSConversion.setDICOMPATH(DICOMPATH)
-
+    def setDICOM(self):
+        MULTISESS = self.dicom.currentText()
+        print("CURRENT CHOICE: ", self.dicom.currentText())
+        if MULTISESS == 'dcm':
+            BIDSConversion.setDICOM('dcm')
+        else:
+            BIDSConversion.setDICOM('IMA')
+            
     def runConversion(self):
         print("here -->")
         BIDSConversion.runConversion()

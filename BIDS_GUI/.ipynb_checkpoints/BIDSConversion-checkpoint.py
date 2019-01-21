@@ -43,7 +43,8 @@ def runConversion():
     else:
         OUTPUT = OUTPUTDIR+"/ses-%s"%(SESS_ID)
         BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s %s -ss %s -f dcm2niix -c %s -o %s"%(INPUT, SUBJ_STRING, SESS_ID,  HEURISTICFILE, OUTPUT)
-    #BATCH_CMD = "sbatch --array=%s-%s"%(start,finish)+"%"+"%s /Users/nikkibytes/Documents/GUIS/BIDS_GUI/run_bids.job"%(JOB_SPLIT)
+    
+    BATCH_CMD = "sbatch /test/projects/niblab/bids_projects/BIDS_GUI/run_bids.job"
     run_batch = subprocess.Popen([BATCH_CMD, BIDS_CMD])
     
     

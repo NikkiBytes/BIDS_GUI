@@ -1,0 +1,38 @@
+  """def divide_chunks(l, n): 
+    # looping till length l 
+        for i in range(0, len(l), n):  
+            yield l[i:i + n] 
+    
+    
+    
+    SUB_COUNT = len(IDS)
+    if SUB_COUNT > 100:
+        BATCH_SPLIT = 10
+        JOB_SPLIT = 50
+    elif SUB_COUNT > 50:
+        BATCH_SPLIT = 5
+        JOB_SPLIT = 30
+    elif SUB_COUNT > 20:
+        BATCH_SPLIT = 3
+        JOB_SPLIT = 20
+    elif SUB_COUNT > 10:
+        BATCH_SPLIT = 2
+        JOB_SPLIT = 10
+    else: 
+        BATCH_SPLIT = 1
+        JOB_SPLIT = 5
+    
+    start=SUBJECTS[0]
+    finish=SUBJECTS[-1]
+    """
+    
+    
+        #batches = list(divide_chunks(SUBJECTS, round(SUB_COUNT/BATCH_SPLIT))) 
+    """for _list in batches:
+        y = len(_list)
+        start = _list[0]
+        finish = _list[-1]
+        BATCH_CMD = "sbatch --array=%s-%s"%(start,finish)+"%"+"%s /projects/wherereverIputit/run_bids.job"%(y)
+        print(BATCH_CMD)"""
+    
+#run_batch=subprocess.Popen(["sbatch /projects/niblab/bids_projects/Heudiconv_drypass/drypass.job", heudiconv_cmd])

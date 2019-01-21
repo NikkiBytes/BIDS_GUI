@@ -58,3 +58,7 @@ run_batch=subprocess.Popen(["sbatch /projects/niblab/bids_projects/Heudiconv_dry
 #dcm_df = pd.read_csv(dicominfo_tsv, sep='\t', header=None)
 #refined_dcm_df = dcm_df.iloc[:, 6:13]
 #print(refined_dcm_df)
+
+singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d /test/projects/niblab/bids_projects/raw_data/continuing_studies/BBx/ses-{session}/{subject}/*dcm -s sub-030 sub-031 -ss 1 -f /test/projects/niblab/bids_projects/Heuristic_Files/bbx_heuristic.py -c dcm2niix -o /test/projects/niblab/bids_projects/raw_data/continuing_studies/BBx/ses-1/test
+ 
+singularity shell -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg 

@@ -118,7 +118,6 @@ class App(QWidget):
             msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         reply = msg.exec_()
         if reply == QMessageBox.Yes:
-            print("value pressed was yes")
             BIDSConversion.setSUBJECTS(SUBS)
         else:
             print("value pressed was no")

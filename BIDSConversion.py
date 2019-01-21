@@ -4,6 +4,10 @@ Author: Nichollette Acosta @ NIBL UNC Chapel Hill
 Module for BIDS Conversion GUI
 This is a conversion script the GUI uses to run Heudiconv
 
+
+## NEED TO MODIFY FOR MULTI SESSIONS
+## NEED TO ADD ERROR FILE OUTPUT 
+## NEED TO TEST 
 """
 
 from __main__ import *
@@ -11,7 +15,7 @@ import os, subprocess
 
 def setINPUTDIR(x):
     global INPUTPATH
-    INPUTPATH = os.path.join("test", x, "{subject}")
+    INPUTPATH = "/test" + x + "/{subject}"
 def setSUBJECTS(x):
     global SUBJECTS
     global IDS 
@@ -24,7 +28,7 @@ def setSUBJECTS(x):
     IDS = sorted(IDS)
 def setOUTPUTDIR(x):
     global OUTPUTDIR
-    OUTPUTDIR = os.path.join("test", x)
+    OUTPUTDIR = "/test" + x
 def setDICOM(x):
     global DICOM
     DICOM = x
@@ -36,23 +40,24 @@ def setSESSIONID(x):
     SESS_ID = x
 def setHEURISTICFILE(x):
     global HEURISTICFILE
-    HEURISTICFILE = os.path.join("test", x)
+    HEURISTICFILE = "/test" + x
 
 def runConversion():
-    print(">>>>---------------------------> STARTING CONVERSION")
     
     if MULTISESS == False:
-            BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s SUBJECT -f dcm2niix -c %s -o %s/SUBJECT"%(INPUT, HEURISTICFILE, OUTPUTDIR)
+        BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s SUBJECT -f dcm2niix -c %s -o %s/SUBJECT"%(INPUTPATH, HEURISTICFILE, OUTPUTDIR)
     else:
-            BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s SUBJECT -ss %s -f dcm2niix -c %s -o %s/SUBJECT"%(INPUT, SESS_ID,  HEURISTICFILE, OUTPUTDIR)
+        BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s SUBJECT -ss %s -f dcm2niix -c %s -o %s/SUBJECT"%(INPUTPATH, SESS_ID,  HEURISTICFILE, OUTPUTDIR)
 
 
     
-    def divide_chunks(l, n): 
+    """def divide_chunks(l, n): 
     # looping till length l 
         for i in range(0, len(l), n):  
             yield l[i:i + n] 
-
+    """
+    
+    
     SUB_COUNT = len(IDS)
     if SUB_COUNT > 100:
         BATCH_SPLIT = 10

@@ -89,16 +89,13 @@ class App(QWidget):
     def getHeuristicFile(self):
         HEURISTICTUPLE = QFileDialog.getOpenFileName(self, "Select File")#get existing file
         HEURISTICFILE = HEURISTICTUPLE[0]
-        print("---------------------> HEURISTIC FILE: ", HEURISTICFILE)
         #print(type(HEURISTICFILE[0]))
-        print(HEURISTICFILE[0])
         BIDSConversion.setHEURISTICFILE(HEURISTICFILE)
 
 ####### Get output directory
 
     def getOutputDir(self):
         OUTPUTDIR = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
-        print("---------------------> OUTPUT DIRECTORY: ", OUTPUTDIR)
         BIDSConversion.setOUTPUTDIR(OUTPUTDIR)
         #self.setPixmap(QPixmap(OUTPUTDIR))
 
@@ -107,7 +104,7 @@ class App(QWidget):
     def showSubjects(self,INPUT_DIR):
         msg = QMessageBox()
         
-        SUBS = glob.glob(os.path.join(INPUT_DIR, "sub-*"))
+        SUBS = sorted(glob.glob(os.path.join(INPUT_DIR, "sub-*")))
         SUBS = [i.split("/")[-1] for i in SUBS]
         
         if not SUBS:
@@ -125,10 +122,9 @@ class App(QWidget):
             BIDSConversion.setSUBJECTS(SUBS)
         else:
             print("value pressed was no")
-        
+            ### NEED TO PUT SOMETHING HERE
     def getInputDir(self):
         INPUTDIR = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
-        print("---------------------> INPUT DIRECTORY: ", INPUTDIR)
         self.showSubjects(INPUTDIR)
         BIDSConversion.setINPUTDIR(INPUTDIR)
     @pyqtSlot()
@@ -137,7 +133,6 @@ class App(QWidget):
 
     def multiSession(self):
         MULTISESS = self.multiSess.currentText()
-        print("CURRENT CHOICE: ", self.multiSess.currentText())
         if MULTISESS == 'Yes':
             BIDSConversion.setMULTISESS(True)
         else:
@@ -150,14 +145,12 @@ class App(QWidget):
 
     def setDICOM(self):
         MULTISESS = self.dicom.currentText()
-        print("CURRENT CHOICE: ", self.dicom.currentText())
         if MULTISESS == 'dcm':
             BIDSConversion.setDICOM('dcm')
         else:
             BIDSConversion.setDICOM('IMA')
             
     def runConversion(self):
-        print("here -->")
         BIDSConversion.runConversion()
         
 

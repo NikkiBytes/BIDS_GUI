@@ -105,7 +105,7 @@ class App(QWidget):
         msg = QMessageBox()
         
         SUBS = sorted(glob.glob(os.path.join(INPUT_DIR, "sub-*")))
-        SUBS = [i.split("/")[-1] for i in SUBS]
+        SUBS = [i.split("/")[-1].split("-")[1] for i in SUBS]
         
         if not SUBS:
             msg.setIcon(QMessageBox.Warning)

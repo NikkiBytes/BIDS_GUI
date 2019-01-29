@@ -4,10 +4,6 @@
 #SBATCH -N 1
 #SBATCH -c 1
 #SBATCH -t 24:00:00
-#SBATCH -o $output
-#SBATCH -e $error
 
-output=$3
-error=$2
 cmd=$1
 $cmd

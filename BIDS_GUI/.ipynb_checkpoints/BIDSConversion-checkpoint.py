@@ -15,7 +15,7 @@ import os, subprocess
 
 def setINPUTDIR(x):
     global INPUTPATH
-    INPUTPATH = "/test" + x + "/{subject}"
+    INPUTPATH = "/test" + x + "/sub-{subject}"
 def setSUBJECTS(x):
     global SUBJ_STRING
     SUBJ_STRING = " ".join(x)
@@ -41,15 +41,15 @@ def runConversion():
     if MULTISESS == False:
         ERROR_FILE = OUTPUTDIR+"/derivatives/error_file.txt"
         OUT_FILE = OUTPUTDIR+"/derivatives/out_file.txt"
-        BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s %s -f %s -c dcm2niix -o %s"%(INPUT, SUBJ_STRING, HEURISTICFILE, OUTPUTDIR)
+        BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s %s -f %s -c dcm2niix -o %s -b"%(INPUT, SUBJ_STRING, HEURISTICFILE, OUTPUTDIR)
     else:
         OUTPUT = OUTPUTDIR+"/ses-%s"%(SESS_ID)
         ERROR_FILE = OUTPUT+"/derivatives/error_file.txt"
         OUT_FILE = OUTPUT+"/derivatives/out_file.txt"
-        BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s %s -ss %s -f %s -c dcm2niix -o %s"%(INPUT, SUBJ_STRING, SESS_ID,  HEURISTICFILE, OUTPUT)
+        BIDS_CMD = "singularity exec -B /:/test /projects/niblab/bids_projects/Singularity_Containers/heudiconv.simg heudiconv -d %s -s %s -ss %s -f %s -c dcm2niix -o %s -b"%(INPUT, SUBJ_STRING, SESS_ID,  HEURISTICFILE, OUTPUT)
     
     BATCH_CMD = "/projects/niblab/bids_projects/BIDS_GUI/run_bids.job"
-    run_batch = subprocess.Popen(["sbatch", BATCH_CMD, BIDS_CMD, ERROR_FILE, OUT_FILE])
+    run_batch = subprocess.Popen(["sbatch", BATCH_CMD, BIDS_CMD])
     
     
     
